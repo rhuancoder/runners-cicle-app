@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'view_models/auth_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,23 +15,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true;
-
-  final sharedPrefereces = SharedPreferences.getInstance();
-
-  void create({required bool isthemeLight}) async {
-    final preferences = await sharedPrefereces;
-    await preferences.setBool('isThemeLight', isthemeLight);
-  }
-
-  Future<bool?> getTheme() async {
-    final preferences = await sharedPrefereces;
-    return preferences.getBool('isThemeLight');
-  }
-
-  void delete() async {
-    final preferences = await sharedPrefereces;
-    await preferences.remove('isThemeLight');
-  }
 
   @override
   void dispose() {
@@ -106,25 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                IconButton(
-                  onPressed: () {
-                    create(isthemeLight: true);
-                  },
-                  icon: Icon(Icons.save),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    final result = await getTheme();
-                    print('RESULT: $result');
-                  },
-                  icon: Icon(Icons.search),
-                ),
-                IconButton(
-                  onPressed: () {
-                    delete();
-                  },
-                  icon: Icon(Icons.remove),
-                ),
                 // Logo ou título
                 const Icon(
                   Icons.directions_run,
